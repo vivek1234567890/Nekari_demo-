@@ -61,6 +61,37 @@ class CompaniesController < ApplicationController
     end
   end
 
+  def onboard_employees_index
+    @companies = Company.all
+  end
+
+  def onboard_company_employees
+    require 'csv'  
+    file = params[:resume]
+    @arr1 = [] 
+    @company = Company.find(params[:company_id])
+    @employees = @company.employees
+    CSV.foreach(file.path, headers: true, encoding:'iso-8859-1:utf-8' ) do |row|
+      binding.pry
+      employee_name = row["Employee Name"]
+      email = row["Email"]
+      phone = row["Phone"]
+      supervisior = row["Report To"]
+      policies.split = row["Assigned Policies"]
+      policies_arr = policies.split("|") rescue []
+      employee = @employees.find_or_initialize_by(email: "vivek.ucek@gmail.com")
+      employee.name = phone
+      employee.phone = phone
+      employee.parent_id = @employees.find_by(email: supervisior).id rescue nil
+      employee.save
+    end  
+
+    respond_to do |format|
+      format.html { redirect_to onboard_employees_index_companies_path, notice: 'Employee Onboarding has completed successfully' }
+      format.json { head :no_content }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_company

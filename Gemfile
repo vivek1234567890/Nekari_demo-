@@ -54,3 +54,11 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'awesome_nested_set'
+
+gem 'rake', '< 11.0'
+gem "awesome_print", require:"ap", group: :development
+gem 'pry', group: :development
+gem 'bootstrap', '~> 4.3.1'
+gem 'jquery-rails'
+gem 'mini_racer', platforms: :ruby
+
